@@ -481,3 +481,7 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 .azure
+Web/WeatherForecast.cs
+Web/README.md
+Talabeyah.TicketManagementSystem/
+Web/Controllers/WeatherForecastController.cs
