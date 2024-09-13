@@ -1,11 +1,8 @@
-﻿using Application.Common.Interfaces;
-using Domain.TicketAggregate;
-using Domain.TicketAggregate.Entities;
-using Domain.TicketAggregate.Events;
-using Domain.TicketAggregate.Services;
-using Domain.TicketAggregate.ValueObjects;
+﻿using Talabeyah.TicketManagement.Application.Common.Repositories;
+using Talabeyah.TicketManagement.Domain.Entities;
+using Talabeyah.TicketManagement.Domain.ValueObjects;
 
-namespace Application.Tickets.Commands.CreateTicket;
+namespace Talabeyah.TicketManagement.Application.Tickets.Commands.CreateTicket;
 
 public record CreateTicketCommand : IRequest<int>
 {
@@ -15,23 +12,16 @@ public record CreateTicketCommand : IRequest<int>
 
 public class Handler : IRequestHandler<CreateTicketCommand, int>
 {
-    private readonly ITicketService _ticketService;
-    private readonly IValidator<CreateTicketCommand> _validator;
+    private readonly ITicketRepository _repository;
 
-    public Handler(ITicketService ticketService, IValidator<CreateTicketCommand> validator)
+    public Handler(ITicketRepository ticketRepository)
     {
-        _ticketService = ticketService;
-        _validator = validator;
+        _repository = ticketRepository;
     }
 
     public async Task<int> Handle(CreateTicketCommand request, CancellationToken cancellationToken)
     {
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException(validationResult.Errors);
-        }
-
-        return await _ticketService.CreateTicketAsync(request.PhoneNumber, request.Location, cancellationToken);
+        var ticket = Ticket.Create(request.PhoneNumber, request.Location);
+        return await _repository.AddAsync(ticket, cancellationToken);
     }
 }

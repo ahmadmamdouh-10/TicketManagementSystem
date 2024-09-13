@@ -1,35 +1,27 @@
-﻿using Application.Common.Interfaces;
-using Domain.TicketAggregate.Enums;
-using Domain.TicketAggregate.Events;
-using Domain.TicketAggregate.Services;
+﻿using Talabeyah.TicketManagement.Application.Common.Repositories;
+using Talabeyah.TicketManagement.Domain.Enums;
 
-namespace Application.Tickets.Commands.ChangeTicketColour;
+namespace Talabeyah.TicketManagement.Application.Tickets.Commands.ChangeTicketColour;
 
 public record ChangeTicketColour : IRequest
 {
     public int Id { get; init; }
-    public Colour Colour { get; init; }
+    public Color Colour { get; init; }
 }
 
 public class ChangeTicketColourHandler : IRequestHandler<ChangeTicketColour>
 {
-    private readonly ITicketService _ticketService;
-    private readonly IValidator<ChangeTicketColour> _validator;
+    private readonly ITicketRepository _repository;
 
-    public ChangeTicketColourHandler(ITicketService ticketService, IValidator<ChangeTicketColour> validator)
+    public ChangeTicketColourHandler(ITicketRepository repository)
     {
-        _ticketService = ticketService;
-        _validator = validator;
+        _repository = repository;
     }
 
     public async Task Handle(ChangeTicketColour request, CancellationToken cancellationToken)
     {
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException(validationResult.Errors);
-        }
-
-        await _ticketService.HandleTicketAsync(request.Id, cancellationToken);
+        var ticket = await _repository.GetByIdAsync(request.Id);
+        ticket.ChangeColour(request.Colour);
+        await _repository.UpdateAsync(ticket, cancellationToken);
     }
 }

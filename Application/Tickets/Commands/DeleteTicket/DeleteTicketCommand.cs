@@ -1,31 +1,30 @@
-﻿using Application.Common.Interfaces;
-using Domain.TicketAggregate.Events;
-using Domain.TicketAggregate.Services;
+﻿using Ardalis.GuardClauses;
+using Talabeyah.TicketManagement.Application.Common.Repositories;
+using Talabeyah.TicketManagement.Domain.Entities;
 
-namespace Application.Tickets.Commands.DeleteTicket;
+namespace Talabeyah.TicketManagement.Application.Tickets.Commands.DeleteTicket;
 
 public record DeleteTicketCommand(int Id) : IRequest;
 
 public class DeleteTicketCommandHandler : IRequestHandler<DeleteTicketCommand>
 {
-    private readonly ITicketService _ticketService;
-    private readonly IValidator<DeleteTicketCommand> _validator;
+    private readonly ITicketRepository _repository;
 
 
-    public DeleteTicketCommandHandler(ITicketService ticketService, IValidator<DeleteTicketCommand> validator)
-    { 
-        _ticketService = ticketService;
-        _validator = validator;
+    public DeleteTicketCommandHandler(ITicketRepository repository)
+    {
+        _repository = repository;
     }
 
     public async Task Handle(DeleteTicketCommand request, CancellationToken cancellationToken)
     {
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException(validationResult.Errors);
-        }
         
-        await _ticketService.DeleteTicketAsync(request.Id, cancellationToken);
+        var ticket = await _repository.GetByIdAsync(request.Id);
+        if (ticket == null)
+        {
+            throw new NotFoundException(nameof(Ticket), request.Id.ToString());
+        }
+        ticket.Delete();
+        await _repository.DeleteAsync(ticket, cancellationToken);
     }
 }
