@@ -1,8 +1,7 @@
-﻿using Application.Common.Interfaces;
-using Application.Common.Mappings;
-using Application.Common.Models;
+﻿using Talabeyah.TicketManagement.Application.Common.Models;
+using Talabeyah.TicketManagement.Application.Common.Repositories;
 
-namespace Application.Tickets.Queries;
+namespace Talabeyah.TicketManagement.Application.Tickets.Queries;
 
 public record GetTicketsWithPaginationQuery : IRequest<PaginatedList<TicketDto>>
 {
@@ -14,21 +13,16 @@ public record GetTicketsWithPaginationQuery : IRequest<PaginatedList<TicketDto>>
 public class GetTodoItemsWithPaginationQueryHandler : IRequestHandler<GetTicketsWithPaginationQuery,
     PaginatedList<TicketDto>>
 {
-    private readonly IApplicationDbContext _context;
-    private readonly IMapper _mapper;
+    private readonly ITicketRepository _context;
 
-    public GetTodoItemsWithPaginationQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetTodoItemsWithPaginationQueryHandler(ITicketRepository context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task<PaginatedList<TicketDto>> Handle(GetTicketsWithPaginationQuery request,
         CancellationToken cancellationToken)
     {
-        return await _context.Tickets
-            .OrderBy(x => x.Created)
-            .ProjectTo<TicketDto>(_mapper.ConfigurationProvider)
-            .PaginatedListAsync(request.PageNumber, request.PageSize);
+        return await _context.GetTicketsAsync(request.PageNumber, request.PageSize);
     }
 }
