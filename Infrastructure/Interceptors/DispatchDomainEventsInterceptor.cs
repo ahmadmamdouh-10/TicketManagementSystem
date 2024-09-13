@@ -1,9 +1,9 @@
-﻿using Domain.Common;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Talabeyah.TicketManagement.Domain.Common;
 
-namespace Infrastructure.Interceptors;
+namespace Talabeyah.TicketManagement.Infrastructure.Interceptors;
 
 public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
 {
@@ -16,18 +16,18 @@ public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
 
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
+        var eveInterceptionResult = base.SavingChanges(eventData, result);
+
         DispatchDomainEvents(eventData.Context).GetAwaiter().GetResult();
-
-        return base.SavingChanges(eventData, result);
-
+        return eveInterceptionResult;
     }
 
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,
         InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
+        var eveInterceptionResult = await base.SavingChangesAsync(eventData, result, cancellationToken);
         await DispatchDomainEvents(eventData.Context);
-
-        return await base.SavingChangesAsync(eventData, result, cancellationToken);
+        return eveInterceptionResult;
     }
 
     public async Task DispatchDomainEvents(DbContext context)
