@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
-using Application.Common.Behaviours;
 using Hangfire;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Talabeyah.TicketManagement.Application.Common.Behaviours;
 
-namespace Application;
+namespace Talabeyah.TicketManagement.Application;
 
 public static class DependencyInjection
 {

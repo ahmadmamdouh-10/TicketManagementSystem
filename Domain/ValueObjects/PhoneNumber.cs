@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using Domain.Common;
+using Talabeyah.TicketManagement.Domain.Common;
 
-namespace Domain.TicketAggregate.ValueObjects;
+namespace Talabeyah.TicketManagement.Domain.ValueObjects;
 
 
 public class PhoneNumber : ValueObject

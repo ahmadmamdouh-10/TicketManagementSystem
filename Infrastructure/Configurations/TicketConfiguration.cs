@@ -1,8 +1,8 @@
-﻿using Domain.TicketAggregate.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Talabeyah.TicketManagement.Domain.Entities;
 
-namespace Infrastructure.Configurations;
+namespace Talabeyah.TicketManagement.Infrastructure.Configurations;
 
 public class TicketConfiguration : IEntityTypeConfiguration<Ticket>
 {

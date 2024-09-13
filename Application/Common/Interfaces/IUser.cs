@@ -1,4 +1,4 @@
-﻿namespace Application.Common.Interfaces;
+﻿namespace Talabeyah.TicketManagement.Application.Common.Interfaces;
 
 public interface IUser
 {

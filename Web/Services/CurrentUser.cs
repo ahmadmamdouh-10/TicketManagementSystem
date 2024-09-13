@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
-using Application.Common.Interfaces;
+using Talabeyah.TicketManagement.Application.Common.Interfaces;
 
-namespace Web.Services;
+namespace Talabeyah.TicketManagement.Web.Services;
 
 public class CurrentUser : IUser
 {
@@ -12,5 +12,5 @@ public class CurrentUser : IUser
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public string? Id => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+    public string Id => _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 }

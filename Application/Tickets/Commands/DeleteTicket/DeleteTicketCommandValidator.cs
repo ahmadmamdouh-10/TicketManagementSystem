@@ -1,4 +1,4 @@
-﻿namespace Application.Tickets.Commands.DeleteTicket;
+﻿namespace Talabeyah.TicketManagement.Application.Tickets.Commands.DeleteTicket;
 
 
 public class DeleteTicketCommandValidator : AbstractValidator<DeleteTicketCommand>

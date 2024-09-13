@@ -1,8 +1,8 @@
-﻿using Application.Common.Interfaces;
-using MediatR.Pipeline;
+﻿using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
+using Talabeyah.TicketManagement.Application.Common.Interfaces;
 
-namespace Application.Common.Behaviours;
+namespace Talabeyah.TicketManagement.Application.Common.Behaviours;
 
 public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where TRequest : notnull
 {

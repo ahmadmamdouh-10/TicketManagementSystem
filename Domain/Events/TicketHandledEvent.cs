@@ -1,7 +1,7 @@
-﻿using Domain.Common;
-using Domain.TicketAggregate.Entities;
+﻿using Talabeyah.TicketManagement.Domain.Common;
+using Talabeyah.TicketManagement.Domain.Entities;
 
-namespace Domain.TicketAggregate.Events;
+namespace Talabeyah.TicketManagement.Domain.Events;
 
 public class TicketHandledEvent : BaseEvent
 {

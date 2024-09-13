@@ -1,6 +1,6 @@
-using Application;
 using Hangfire;
-using Infrastructure;
+using Talabeyah.TicketManagement.Application;
+using Talabeyah.TicketManagement.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

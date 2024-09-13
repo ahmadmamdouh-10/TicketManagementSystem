@@ -1,6 +1,4 @@
-﻿using Application.Tickets.Commands.CreateTicket;
-
-namespace Application.Tickets.Commands.CreateTicket;
+﻿namespace Talabeyah.TicketManagement.Application.Tickets.Commands.CreateTicket;
 
 public class CreateTicketCommandValidator : AbstractValidator<CreateTicketCommand>
 {

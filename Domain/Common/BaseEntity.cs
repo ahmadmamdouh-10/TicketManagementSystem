@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain.Common;
+namespace Talabeyah.TicketManagement.Domain.Common;
 
 public abstract class BaseEntity
 {
@@ -12,7 +12,7 @@ public abstract class BaseEntity
 
     [NotMapped] public IReadOnlyCollection<BaseEvent> DomainEvents => _domainEvents.AsReadOnly();
 
-    public void AddDomainEvent(BaseEvent domainEvent)
+    protected void AddDomainEvent(BaseEvent domainEvent)
     {
         _domainEvents.Add(domainEvent);
     }

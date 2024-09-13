@@ -1,8 +1,9 @@
-﻿using Domain.TicketAggregate.Events;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Talabeyah.TicketManagement.Domain.Events;
 
-namespace Application.Tickets.EventHandlers;
+namespace Talabeyah.TicketManagement.Application.Tickets.EventHandlers;
 
+//it's not needed as this even occurs in the TicketCreatedEventHandler with ChangeTicketColor Service
 public class TicketColourChangedEventHandler : INotificationHandler<TicketColourChangedEvent>
 {
     private readonly ILogger<TicketColourChangedEventHandler> _logger;

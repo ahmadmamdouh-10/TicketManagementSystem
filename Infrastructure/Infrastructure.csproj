@@ -4,6 +4,9 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
+        <AssemblyName>Talabeyah.TicketManagement.Infrastructure</AssemblyName>
+        <RootNamespace>Talabeyah.TicketManagement.Infrastructure</RootNamespace>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

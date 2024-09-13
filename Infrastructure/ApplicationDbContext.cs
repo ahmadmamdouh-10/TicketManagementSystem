@@ -1,13 +1,11 @@
 ﻿using System.Reflection;
-using Application.Common.Interfaces;
-using Domain.TicketAggregate.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
+using Talabeyah.TicketManagement.Domain.Entities;
 
-namespace Infrastructure;
+namespace Talabeyah.TicketManagement.Infrastructure;
 
 //dbContext for Ticket Entity 
-public class ApplicationDbContext : DbContext, IApplicationDbContext
+public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {

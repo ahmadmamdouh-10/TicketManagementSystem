@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
-using Application.Common.Interfaces;
 using Microsoft.Extensions.Logging;
+using Talabeyah.TicketManagement.Application.Common.Interfaces;
 
-namespace Application.Common.Behaviours;
+namespace Talabeyah.TicketManagement.Application.Common.Behaviours;
 
 public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {

@@ -1,17 +1,14 @@
-﻿using Application.Common.Interfaces;
-using Domain.Common;
-using Domain.TicketAggregate.Repositories;
-using Domain.TicketAggregate.Services;
-using Infrastructure.Interceptors;
-using Infrastructure.Repositories;
-using Infrastructure.Services;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Talabeyah.TicketManagement.Application.Common.Repositories;
+using Talabeyah.TicketManagement.Domain.Common;
+using Talabeyah.TicketManagement.Infrastructure.Interceptors;
+using Talabeyah.TicketManagement.Infrastructure.Repositories;
 
-namespace Infrastructure;
+namespace Talabeyah.TicketManagement.Infrastructure;
 
 public static class DependencyInjection
 {
@@ -30,29 +27,23 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(writeConnectionString));
 
-        services.AddDbContext<ReadOnlyApplicationDbContext>(options =>
+        services.AddDbContext<ApplicationDbContextReadOnly>(options =>
         {
             var builder = new SqlConnectionStringBuilder(readConnectionString)
             {
                 ApplicationIntent = ApplicationIntent.ReadOnly
             };
-            options.UseSqlServer(builder.ConnectionString);
+            options.UseSqlServer(builder.ConnectionString)
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
-        
-        
-        
-        
-
-        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-        services.AddScoped<IApplicationDbContext>(provider =>
-            provider.GetRequiredService<ReadOnlyApplicationDbContext>());
 
 
-        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped(provider => provider.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped(provider =>
+            provider.GetRequiredService<ApplicationDbContextReadOnly>());
+
+
         services.AddScoped<ITicketRepository, TicketRepository>();
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<ITicketService, TicketService>();
-
         return services;
     }
 }

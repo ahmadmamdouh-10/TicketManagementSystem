@@ -1,4 +1,4 @@
-﻿namespace Application.Common.Exceptions;
+﻿namespace Talabeyah.TicketManagement.Application.Common.Exceptions;
 
 public class ForbiddenAccessException : Exception
 {

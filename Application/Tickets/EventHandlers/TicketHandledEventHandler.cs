@@ -1,7 +1,7 @@
-﻿using Domain.TicketAggregate.Events;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Talabeyah.TicketManagement.Domain.Events;
 
-namespace Application.Tickets.EventHandlers;
+namespace Talabeyah.TicketManagement.Application.Tickets.EventHandlers;
 
 public class TicketHandledEventHandler : INotificationHandler<TicketHandledEvent>
 {

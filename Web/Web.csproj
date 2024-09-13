@@ -2,8 +2,11 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <AssemblyName>Talabeyah.TicketManagement.Web</AssemblyName>
+        <RootNamespace>Talabeyah.TicketManagement.Web</RootNamespace>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

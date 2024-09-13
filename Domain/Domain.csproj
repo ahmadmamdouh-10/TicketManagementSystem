@@ -5,6 +5,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <LangVersion>preview</LangVersion>
+        <AssemblyName>Talabeyah.TicketManagement.Domain</AssemblyName>
+        <RootNamespace>Talabeyah.TicketManagement.Domain</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

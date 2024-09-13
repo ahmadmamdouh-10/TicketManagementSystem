@@ -1,13 +1,12 @@
 ﻿using System.Reflection;
-using Application.Common.Interfaces;
-using Domain.TicketAggregate.Entities;
 using Microsoft.EntityFrameworkCore;
+using Talabeyah.TicketManagement.Domain.Entities;
 
-namespace Infrastructure;
+namespace Talabeyah.TicketManagement.Infrastructure;
 
-public class ReadOnlyApplicationDbContext : DbContext, IApplicationDbContext
+public class ApplicationDbContextReadOnly : DbContext
 {
-    public ReadOnlyApplicationDbContext(DbContextOptions<ReadOnlyApplicationDbContext> options) : base(options)
+    public ApplicationDbContextReadOnly(DbContextOptions<ApplicationDbContextReadOnly> options) : base(options)
     {
     }
 

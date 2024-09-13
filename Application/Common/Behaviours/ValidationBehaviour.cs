@@ -1,6 +1,6 @@
-﻿using ValidationException = Application.Common.Exceptions.ValidationException;
+﻿using ValidationException = Talabeyah.TicketManagement.Application.Common.Exceptions.ValidationException;
 
-namespace Application.Common.Behaviours;
+namespace Talabeyah.TicketManagement.Application.Common.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
      where TRequest : notnull

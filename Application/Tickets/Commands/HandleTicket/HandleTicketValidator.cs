@@ -1,4 +1,4 @@
-﻿namespace Application.Tickets.Commands.HandleTicket;
+﻿namespace Talabeyah.TicketManagement.Application.Tickets.Commands.HandleTicket;
 
 public class HandleTicketValidator : AbstractValidator<HandleTicket>
 {

@@ -1,6 +1,6 @@
-﻿using Application.Common.Models;
+﻿using Talabeyah.TicketManagement.Application.Common.Models;
 
-namespace Application.Common.Mappings;
+namespace Talabeyah.TicketManagement.Application.Common.Mappings;
 
 public static class MappingExtensions
 {

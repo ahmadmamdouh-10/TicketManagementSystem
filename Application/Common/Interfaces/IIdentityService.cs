@@ -1,6 +1,6 @@
-﻿using Application.Common.Models;
+﻿using Talabeyah.TicketManagement.Application.Common.Models;
 
-namespace Application.Common.Interfaces;
+namespace Talabeyah.TicketManagement.Application.Common.Interfaces;
 
 public interface IIdentityService
 {

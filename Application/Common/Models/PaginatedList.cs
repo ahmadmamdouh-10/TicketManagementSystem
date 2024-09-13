@@ -1,4 +1,4 @@
-﻿namespace Application.Common.Models;
+﻿namespace Talabeyah.TicketManagement.Application.Common.Models;
 
 public class PaginatedList<T>
 {

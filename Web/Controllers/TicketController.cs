@@ -1,11 +1,11 @@
-﻿using Application.Common.Models;
-using Application.Tickets.Commands.CreateTicket;
-using Application.Tickets.Commands.DeleteTicket;
-using Application.Tickets.Commands.HandleTicket;
-using Application.Tickets.Queries;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Talabeyah.TicketManagement.Application.Common.Models;
+using Talabeyah.TicketManagement.Application.Tickets.Commands.CreateTicket;
+using Talabeyah.TicketManagement.Application.Tickets.Commands.DeleteTicket;
+using Talabeyah.TicketManagement.Application.Tickets.Commands.HandleTicket;
+using Talabeyah.TicketManagement.Application.Tickets.Queries;
 
-namespace Web.Controllers;
+namespace Talabeyah.TicketManagement.Web.Controllers;
 
 [ApiController]
 [Route("[controller]")]

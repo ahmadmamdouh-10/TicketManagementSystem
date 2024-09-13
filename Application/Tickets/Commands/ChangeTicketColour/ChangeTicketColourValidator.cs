@@ -1,4 +1,4 @@
-﻿namespace Application.Tickets.Commands.ChangeTicketColour;
+﻿namespace Talabeyah.TicketManagement.Application.Tickets.Commands.ChangeTicketColour;
 
 public class ChangeTicketColourValidator : AbstractValidator<ChangeTicketColour>
 {

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Application.Common.Exceptions;
-using Microsoft.AspNetCore.Diagnostics;
+using Talabeyah.TicketManagement.Application.Common.Exceptions;
 
-namespace Web.Infrastructure;
+namespace Talabeyah.TicketManagement.Web.Infrastructure;
 
 public class CustomExceptionHandler 
 {

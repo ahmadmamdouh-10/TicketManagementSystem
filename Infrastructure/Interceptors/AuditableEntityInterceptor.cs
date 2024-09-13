@@ -1,10 +1,10 @@
-﻿using Application.Common.Interfaces;
-using Domain.Common;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Talabeyah.TicketManagement.Application.Common.Interfaces;
+using Talabeyah.TicketManagement.Domain.Common;
 
-namespace Infrastructure.Interceptors;
+namespace Talabeyah.TicketManagement.Infrastructure.Interceptors;
 
 public class AuditableEntityInterceptor : SaveChangesInterceptor
 {
