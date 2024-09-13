@@ -1,36 +1,27 @@
-﻿using Application.Common.Interfaces;
-using Domain.TicketAggregate.Events;
-using Domain.TicketAggregate.Services;
+﻿using Talabeyah.TicketManagement.Application.Common.Repositories;
 
-namespace Application.Tickets.Commands.HandleTicket;
+namespace Talabeyah.TicketManagement.Application.Tickets.Commands.HandleTicket;
 
 public record HandleTicket : IRequest
 {
     public int Id { get; init; }
 
-    //IsHandled property to update
     public bool IsHandled { get; init; }
 }
 
 public class HandleTicketCommandHandler : IRequestHandler<HandleTicket>
 {
-    private readonly ITicketService _ticketService;
-    private readonly IValidator<HandleTicket> _validator;
+    private readonly ITicketRepository _repository;
 
-    public HandleTicketCommandHandler(ITicketService ticketService, IValidator<HandleTicket> validator)
+    public HandleTicketCommandHandler(ITicketRepository repository)
     {
-        _ticketService = ticketService;
-        _validator = validator;
+        _repository = repository;
     }
 
     public async Task Handle(HandleTicket request, CancellationToken cancellationToken)
     {
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException(validationResult.Errors);
-        }
-        
-        await _ticketService.HandleTicketAsync(request.Id, cancellationToken);
+        var ticket = await _repository.GetByIdAsync(request.Id);
+        ticket.HandleTicket();
+        await _repository.UpdateAsync(ticket, cancellationToken);
     }
 }
