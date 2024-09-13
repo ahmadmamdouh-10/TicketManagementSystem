@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.TicketAggregate.Events;
+using Domain.TicketAggregate.Services;
 
 namespace Application.Tickets.Commands.HandleTicket;
 
@@ -13,12 +14,12 @@ public record HandleTicket : IRequest
 
 public class HandleTicketCommandHandler : IRequestHandler<HandleTicket>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ITicketService _ticketService;
     private readonly IValidator<HandleTicket> _validator;
 
-    public HandleTicketCommandHandler(IApplicationDbContext context , IValidator<HandleTicket> validator)
+    public HandleTicketCommandHandler(ITicketService ticketService, IValidator<HandleTicket> validator)
     {
-        _context = context;
+        _ticketService = ticketService;
         _validator = validator;
     }
 
@@ -30,15 +31,6 @@ public class HandleTicketCommandHandler : IRequestHandler<HandleTicket>
             throw new ValidationException(validationResult.Errors);
         }
         
-        var entity = await _context.Tickets
-            .FindAsync(new object[] { request.Id }, cancellationToken);
-
-        Guard.Against.NotFound(request.Id, entity);
-
-        entity.HandleTicket();
-
-        entity.AddDomainEvent(new TicketHandledEvent(entity));
-
-        await _context.SaveChangesAsync(cancellationToken);
+        await _ticketService.HandleTicketAsync(request.Id, cancellationToken);
     }
 }
