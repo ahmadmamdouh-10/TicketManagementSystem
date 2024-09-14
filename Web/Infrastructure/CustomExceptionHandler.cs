@@ -3,7 +3,7 @@ using Talabeyah.TicketManagement.Application.Common.Exceptions;
 
 namespace Talabeyah.TicketManagement.Web.Infrastructure;
 
-public class CustomExceptionHandler 
+public class CustomExceptionHandler
 {
     private readonly Dictionary<Type, Func<HttpContext, Exception, Task>> _exceptionHandlers;
 
@@ -30,7 +30,15 @@ public class CustomExceptionHandler
             return true;
         }
 
-        return false;
+        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+        
+        await httpContext.Response.WriteAsJsonAsync(new ValidationProblemDetails
+        {
+            Status = StatusCodes.Status400BadRequest,
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+            Detail = exception.Message
+        });
+        return true;
     }
 
     private async Task HandleValidationException(HttpContext httpContext, Exception ex)

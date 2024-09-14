@@ -11,25 +11,23 @@ public class TicketCreatedEventHandler : INotificationHandler<TicketCreatedEvent
     private readonly ILogger<TicketCreatedEventHandler> _logger;
 
     private readonly IBackgroundJobClient _backgroundJobClient;
+    private readonly IChangeTicketColor _changeTicketColor;
 
 
     public TicketCreatedEventHandler(ILogger<TicketCreatedEventHandler> logger,
-        IBackgroundJobClient backgroundJobClient)
+        IBackgroundJobClient backgroundJobClient, IChangeTicketColor changeTicketColor)
     {
         _logger = logger;
         _backgroundJobClient = backgroundJobClient;
+        _changeTicketColor = changeTicketColor;
     }
 
     public Task Handle(TicketCreatedEvent notification, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Ticket Created with Id {TicketId}", notification.Ticket.Id);
 
-        //background service of hangfire
         // Schedule the first color change to yellow after 15 minutes
-        _backgroundJobClient.Schedule<IChangeTicketColor>(
-            (eventHandler) =>
-                eventHandler.ChangeTicketColourAsync(notification.Ticket.Id, Color.Yellow),
-            TimeSpan.FromMinutes(15));
+        _changeTicketColor.ScheduleChangeTicketColour(notification.Ticket.Id);
 
         return Task.CompletedTask;
     }

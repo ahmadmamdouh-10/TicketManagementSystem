@@ -4,5 +4,6 @@ namespace Talabeyah.TicketManagement.Application.Common.Interfaces;
 
 public interface IChangeTicketColor
 {
-      Task ChangeTicketColourAsync(int ticketId, Color color);
+      Task ChangeTicketColourAsync(int ticketId);
+      void ScheduleChangeTicketColour(int ticketId);
 }

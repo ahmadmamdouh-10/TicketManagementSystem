@@ -9,7 +9,7 @@ namespace Talabeyah.TicketManagement.Application.Common.Repositories;
 public interface ITicketRepository : IRepository<Ticket>
 {
     Task<Ticket> GetByIdAsync(int id);
-    Task<PaginatedList<TicketDto>> GetTicketsAsync(int pageNumber, int pageSize);
+    Task<PaginatedList<TicketDto>> GetPageAsync(int pageNumber, int pageSize);
     Task<int> AddAsync(Ticket ticket, CancellationToken cancellationToken);
     Task<int> UpdateAsync(Ticket ticket, CancellationToken cancellationToken);
     Task<int> DeleteAsync(Ticket ticket, CancellationToken cancellationToken);

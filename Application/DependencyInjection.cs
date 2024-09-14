@@ -1,8 +1,11 @@
 ﻿using System.Reflection;
 using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Talabeyah.TicketManagement.Application.Common.Behaviours;
+using Talabeyah.TicketManagement.Application.Common.Interfaces;
+using Talabeyah.TicketManagement.Application.Common.Services;
 
 namespace Talabeyah.TicketManagement.Application;
 
@@ -18,14 +21,21 @@ public static class DependencyInjection
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
         });
 
-        var connectionString = configuration.GetConnectionString("HangfireConnection");
+        services.AddScoped<IChangeTicketColor, ChangeTicketColorService>();
 
 
         // Add Hangfire services
-        services.AddHangfire(config => config.UseSqlServerStorage(connectionString));
+
+        #region AddingHangfireWithSqlServer
+
+        // var connectionString = configuration.GetConnectionString("HangfireConnection");
+        // services.AddHangfire(config => config.UseSqlServerStorage(connectionString));
+
+        #endregion
+
+        services.AddHangfire(config => config.UseMemoryStorage());
         services.AddHangfireServer();
 
         return services;

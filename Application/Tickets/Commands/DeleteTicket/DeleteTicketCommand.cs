@@ -6,6 +6,7 @@ namespace Talabeyah.TicketManagement.Application.Tickets.Commands.DeleteTicket;
 
 public record DeleteTicketCommand(int Id) : IRequest;
 
+[UsedImplicitly]
 public class DeleteTicketCommandHandler : IRequestHandler<DeleteTicketCommand>
 {
     private readonly ITicketRepository _repository;

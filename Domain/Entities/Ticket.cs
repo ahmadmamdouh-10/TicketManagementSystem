@@ -27,9 +27,9 @@ public class Ticket : BaseAuditableEntity, IAgreggateRoot
         AddDomainEvent(new TicketHandledEvent(this));
     }
 
-    public void ChangeColour(Color newColor)
+    public void ChangeColour()
     {
-        Color nextColor = newColor switch
+        Color nextColor = Colour switch
         {
             Color.None => Color.Yellow,
             Color.Yellow => Color.Green,
@@ -38,10 +38,10 @@ public class Ticket : BaseAuditableEntity, IAgreggateRoot
             _ => Color.None
         };
         if (nextColor == Color.None)
-            throw new ArgumentException("Invalid colour", nameof(newColor));
+            throw new ArgumentException("Invalid colour", nameof(Colour));
 
-        Colour = newColor;
-        AddDomainEvent(new TicketColourChangedEvent(this));
+        Colour = nextColor;
+        // AddDomainEvent(new TicketColourChangedEvent(this));
     }
 
     public void Delete()

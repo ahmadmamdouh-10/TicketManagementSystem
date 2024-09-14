@@ -9,6 +9,7 @@ public record ChangeTicketColour : IRequest
     public Color Colour { get; init; }
 }
 
+[UsedImplicitly]
 public class ChangeTicketColourHandler : IRequestHandler<ChangeTicketColour>
 {
     private readonly ITicketRepository _repository;
@@ -21,7 +22,7 @@ public class ChangeTicketColourHandler : IRequestHandler<ChangeTicketColour>
     public async Task Handle(ChangeTicketColour request, CancellationToken cancellationToken)
     {
         var ticket = await _repository.GetByIdAsync(request.Id);
-        ticket.ChangeColour(request.Colour);
+        ticket.ChangeColour();
         await _repository.UpdateAsync(ticket, cancellationToken);
     }
 }

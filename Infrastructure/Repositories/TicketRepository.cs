@@ -31,9 +31,9 @@ public class TicketRepository : ITicketRepository
         return await _dbContext.Tickets.FindAsync(new object[] { id });
     }
 
-    public async Task<PaginatedList<TicketDto>> GetTicketsAsync(int pageNumber, int pageSize)
+    public async Task<PaginatedList<TicketDto>> GetPageAsync(int pageNumber, int pageSize)
     {
-        return await _applicationDbContextReadOnlyDbContext.Tickets
+        return await _dbContext.Tickets
             .OrderBy(x => x.Created)
             .ProjectTo<TicketDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(pageNumber, pageSize);
@@ -69,37 +69,5 @@ public class TicketRepository : ITicketRepository
         _dbContext.Tickets.Remove(ticket);
         ticket.Delete();
         return await _dbContext.SaveChangesAsync(cancellationToken);
-    }
-
-    //it shouldn't be here, as it is a command
-    public async Task<Ticket> ChangeTicketColourAsync(int id, Color colour, CancellationToken cancellationToken)
-    {
-        var ticket = await _dbContext.Tickets.FindAsync(new object[] { id }, cancellationToken);
-        if (ticket == null)
-        {
-            throw new KeyNotFoundException($"Ticket with id {id} not found.");
-        }
-
-        ticket.ChangeColour(colour);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-        return ticket;
-    }
-
-    //it shouldn't be here, as it is a command
-    public async Task<Ticket> HandleTicketAsync(int id, CancellationToken cancellationToken)
-    {
-        var ticket = await _dbContext.Tickets.FindAsync(new object[] { id }, cancellationToken);
-        if (ticket == null)
-        {
-            throw new KeyNotFoundException($"Ticket with id {id} not found.");
-        }
-
-        if (!ticket.IsHandled)
-        {
-            ticket.HandleTicket();
-        }
-
-        await _dbContext.SaveChangesAsync(cancellationToken);
-        return ticket;
     }
 }

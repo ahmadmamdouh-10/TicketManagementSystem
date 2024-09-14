@@ -17,4 +17,10 @@ public class ApplicationDbContextReadOnly : DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        // optionsBuilder.UseInMemoryDatabase(databaseName: "TicketManagement");
+    }
 }

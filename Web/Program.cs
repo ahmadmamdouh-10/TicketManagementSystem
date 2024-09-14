@@ -1,12 +1,16 @@
 using Hangfire;
 using Talabeyah.TicketManagement.Application;
+using Talabeyah.TicketManagement.Application.Common.Behaviours;
 using Talabeyah.TicketManagement.Infrastructure;
+using Talabeyah.TicketManagement.Web;
+using Talabeyah.TicketManagement.Web.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -26,8 +30,12 @@ app.UseHangfireDashboard();
 
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
-// app.UseAuthorization();
+
+app.UseRouting();
+
+app.UseAuthorization();
 
 app.MapControllers();
 

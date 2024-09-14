@@ -8,17 +8,18 @@ public class TicketDto
 {
     public int Id { get; set; }
     public string PhoneNumber { get; set; }
-    public Location Location { get; set; }
-    
+    public LocationDto Location { get; set; }
+
     public DateTimeOffset Created { get; set; }
     public bool IsHandled { get; set; }
-    public Color Color { get; set; }
-    
+    public Color Colour { get; set; }
+
     private class Mapping : Profile
     {
         public Mapping()
         {
-            CreateMap<Ticket, TicketDto>();
+            CreateMap<Ticket, TicketDto>()
+                .ForMember(t => t.PhoneNumber, opt => opt.MapFrom(t => t.PhoneNumber.Value));
         }
     }
 }
