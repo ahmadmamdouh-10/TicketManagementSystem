@@ -19,7 +19,6 @@ public class PhoneNumber : ValueObject
         Value = value;
     }
 
-    public static PhoneNumber Create(string value) => new PhoneNumber(value);
 
     private static bool IsValidPhoneNumber(string phoneNumber)
     {
@@ -30,4 +29,7 @@ public class PhoneNumber : ValueObject
     {
         yield return Value;
     }
+    
+        public static PhoneNumber Create(string value) => new PhoneNumber(value);
+
 }
