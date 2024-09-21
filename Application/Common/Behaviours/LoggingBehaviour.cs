@@ -25,10 +25,20 @@ public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where T
 
         if (!string.IsNullOrEmpty(userId))
         {
-            userName = await _identityService.GetUserNameAsync(userId);
+            //area of improvement by adding error handling in case of 
+            // error in the fetching the user from Identity Service.
+            try
+            {
+                userName = await _identityService.GetUserNameAsync(userId);
+
+            }
+            catch (Exception e)
+            {
+                _logger.logError(ex, "Error fetching user name for user ID {UserId}", userId)
+            }
         }
 
-        _logger.LogInformation("CleanArchitecture Request: {Name} {@UserId} {@UserName} {@Request}",
+        _logger.LogInformation("Ticket Management Request: {Name} {@UserId} {@UserName} {@Request}",
             requestName, userId, userName, request);
     }
 }
