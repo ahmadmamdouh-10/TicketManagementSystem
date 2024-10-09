@@ -19,7 +19,9 @@ public static class DependencyInjection
         // services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
         services.AddScoped<ITicketRepository, TicketRepository>();
-
+        services.AddScoped<IEventDispatcher, EventDispatcher>();
+        
+        
         var myTestDb = configuration.GetConnectionString("myTestDb");
 
         Guard.AgainstNull(myTestDb, "Connection string 'myTestDb' not found.");
@@ -47,6 +49,12 @@ public static class DependencyInjection
         //     {
         //         ApplicationIntent = ApplicationIntent.ReadOnly
         //     };
+        
+        //   //this needs you to install Microsoft.EntityFrameworkCore.Proxies
+        //      options.UseLazyLoadingProxies(proxyOptions => 
+        //  //this is will disable all the tracking of the entities, so you will need to manually change 
+        //  // the changeModified state of the entity to modified before saving it:in .NET Core Api in Rest, why it's better to retrun Task<IActionResult> instead of returning the actual value result?   
+        //     proxyOptions.UseChangeTrackingProxies(false))
         //     options.UseSqlServer(builder.ConnectionString)
         //         .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         // });
