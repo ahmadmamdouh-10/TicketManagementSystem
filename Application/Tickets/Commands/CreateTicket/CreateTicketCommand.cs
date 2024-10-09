@@ -16,11 +16,17 @@ public class Handler : IRequestHandler<CreateTicketCommand, int>
 {
     private readonly ITicketRepository _repository;
     private readonly IPhoneNumberUniquenessChecker _phoneNumberUniquenessChecker;
+    
+    private readonly IUnitOfWork _unitOfWork;
 
-    public Handler(ITicketRepository ticketRepository, IPhoneNumberUniquenessChecker phoneNumberUniquenessChecker)
+
+    public Handler(ITicketRepository ticketRepository, 
+        IPhoneNumberUniquenessChecker phoneNumberUniquenessChecker,
+        IUnitOfWork unitOfWork)
     {
         _repository = ticketRepository;
         _phoneNumberUniquenessChecker = phoneNumberUniquenessChecker;
+        _unitOfWork = unitOfWork;
     }
     public async Task<int> Handle(CreateTicketCommand request, CancellationToken cancellationToken)
     {
@@ -29,6 +35,7 @@ public class Handler : IRequestHandler<CreateTicketCommand, int>
         
         var ticket = Ticket.Create(request.PhoneNumber, request.Location);
         await _repository.AddAsync(ticket, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         return ticket.Id;
     }
 }

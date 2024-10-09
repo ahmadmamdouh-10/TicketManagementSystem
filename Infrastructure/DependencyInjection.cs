@@ -21,7 +21,7 @@ public static class DependencyInjection
         services.AddScoped<ITicketRepository, TicketRepository>();
         services.AddScoped<IEventDispatcher, EventDispatcher>();
         services.AddScoped<IPhoneNumberUniquenessChecker, PhoneNumberUniquenessChecker>();
-        
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         
         var myTestDb = configuration.GetConnectionString("myTestDb");
 

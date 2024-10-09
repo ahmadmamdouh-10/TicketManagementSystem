@@ -41,8 +41,10 @@ public class TicketRepository : ITicketRepository
 
     public async Task<int> AddAsync(Ticket ticket, CancellationToken cancellationToken)
     {
-        await _dbContext.Tickets.AddAsync(ticket, cancellationToken);
-        return await _dbContext.SaveChangesAsync(cancellationToken);
+        return await _dbContext.Tickets.AddAsync(ticket, cancellationToken);
+        
+        //add a unit of work pattern instead of saving the changes here
+        // return await _dbContext.SaveChangesAsync(cancellationToken);
     }
     
     public async Task<int> UpdateAsync(Ticket ticket, CancellationToken cancellationToken)
