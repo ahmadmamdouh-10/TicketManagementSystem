@@ -9,11 +9,15 @@ public class ChangeTicketColorService : IChangeTicketColor
 {
     private readonly ITicketRepository _repository;
     private readonly IBackgroundJobClient _backgroundJobClient;
-
-    public ChangeTicketColorService(ITicketRepository repository, IBackgroundJobClient backgroundJobClient)
+    private readonly IEventDispatcher _eventDispatcher;
+    
+    public ChangeTicketColorService(ITicketRepository repository,
+        IBackgroundJobClient backgroundJobClient,
+        IEventDispatcher eventDispatcher)
     {
         _repository = repository;
         _backgroundJobClient = backgroundJobClient;
+        _eventDispatcher = eventDispatcher;
     }
 
     //this method must be public for the hangfire to work
@@ -28,6 +32,7 @@ public class ChangeTicketColorService : IChangeTicketColor
         {
             ticket.HandleTicket();
             await _repository.UpdateAsync(ticket, CancellationToken.None);
+            await _eventDispatcher.Dispatch(new TicketHandledEvent(ticket));
             return;
         }
 
