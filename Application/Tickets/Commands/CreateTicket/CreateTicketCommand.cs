@@ -15,14 +15,18 @@ public record CreateTicketCommand : IRequest<int>
 public class Handler : IRequestHandler<CreateTicketCommand, int>
 {
     private readonly ITicketRepository _repository;
+    private readonly IPhoneNumberUniquenessChecker _phoneNumberUniquenessChecker;
 
-    public Handler(ITicketRepository ticketRepository)
+    public Handler(ITicketRepository ticketRepository, IPhoneNumberUniquenessChecker phoneNumberUniquenessChecker)
     {
         _repository = ticketRepository;
+        _phoneNumberUniquenessChecker = phoneNumberUniquenessChecker;
     }
-
     public async Task<int> Handle(CreateTicketCommand request, CancellationToken cancellationToken)
     {
+        if (!await _phoneNumberUniquenessChecker.IsUniqueAsync(request.PhoneNumber, cancellationToken))
+            throw new BadRequestException("Phone number is already taken");
+        
         var ticket = Ticket.Create(request.PhoneNumber, request.Location);
         await _repository.AddAsync(ticket, cancellationToken);
         return ticket.Id;
