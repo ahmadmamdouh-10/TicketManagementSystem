@@ -88,7 +88,3 @@ To get started with the Ticket Management System, follow these steps:
 1. Clone the repository.
 2. Configure the connection strings in `appsettings.json`.
 3. Run the application.
-
-## License
-
-This project is licensed under the MIT License.
