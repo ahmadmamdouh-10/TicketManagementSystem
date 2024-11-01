@@ -1,4 +1,8 @@
-namespace DefaultNamespace;
+using MediatR;
+using Talabeyah.TicketManagement.Application.Common.Interfaces;
+using Talabeyah.TicketManagement.Domain.Common;
+
+namespace Talabeyah.TicketManagement.Infrastructure.Services;
 
 public class EventDispatcher : IEventDispatcher
 {

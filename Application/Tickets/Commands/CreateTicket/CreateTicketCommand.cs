@@ -1,6 +1,9 @@
 ﻿using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
+using Talabeyah.TicketManagement.Application.Common.Interfaces;
 using Talabeyah.TicketManagement.Application.Common.Repositories;
 using Talabeyah.TicketManagement.Domain.Entities;
+using Talabeyah.TicketManagement.Domain.Services;
 using Talabeyah.TicketManagement.Domain.ValueObjects;
 
 namespace Talabeyah.TicketManagement.Application.Tickets.Commands.CreateTicket;
@@ -30,8 +33,8 @@ public class Handler : IRequestHandler<CreateTicketCommand, int>
     }
     public async Task<int> Handle(CreateTicketCommand request, CancellationToken cancellationToken)
     {
-        if (!await _phoneNumberUniquenessChecker.IsUniqueAsync(request.PhoneNumber, cancellationToken))
-            throw new BadRequestException("Phone number is already taken");
+        if (!await _phoneNumberUniquenessChecker.IsUniqueAsync(request.PhoneNumber))
+            throw new BadHttpRequestException("Phone number is already taken");
         
         var ticket = Ticket.Create(request.PhoneNumber, request.Location);
         await _repository.AddAsync(ticket, cancellationToken);

@@ -2,6 +2,7 @@
 using Talabeyah.TicketManagement.Application.Common.Interfaces;
 using Talabeyah.TicketManagement.Application.Common.Repositories;
 using Talabeyah.TicketManagement.Domain.Enums;
+using Talabeyah.TicketManagement.Domain.Events;
 
 namespace Talabeyah.TicketManagement.Application.Common.Services;
 
@@ -32,7 +33,7 @@ public class ChangeTicketColorService : IChangeTicketColor
         {
             ticket.HandleTicket();
             await _repository.UpdateAsync(ticket, CancellationToken.None);
-            await _eventDispatcher.Dispatch(new TicketHandledEvent(ticket));
+            await _eventDispatcher.DispatchAsync(new TicketHandledEvent(ticket));
             return;
         }
 

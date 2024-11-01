@@ -25,7 +25,14 @@ public class TicketRepository : ITicketRepository
         _applicationDbContextReadOnlyDbContext = applicationDbContextReadOnlyDbContext;
         _dbContext = dbContext;
     }
-    
+
+    public TicketRepository(ApplicationDbContext dbContext,
+        IMapper mapper)
+    {
+        _mapper = mapper;
+        _dbContext = dbContext;
+    }
+
     public async Task<Ticket> GetByIdAsync(int id)
     {
         return await _dbContext.Tickets.FindAsync(new object[] { id });
@@ -41,18 +48,16 @@ public class TicketRepository : ITicketRepository
 
     public async Task<int> AddAsync(Ticket ticket, CancellationToken cancellationToken)
     {
-        return await _dbContext.Tickets.AddAsync(ticket, cancellationToken);
-        
-        //add a unit of work pattern instead of saving the changes here
-        // return await _dbContext.SaveChangesAsync(cancellationToken);
+        var ticketAddedResult = await _dbContext.Tickets.AddAsync(ticket, cancellationToken);
+        return ticketAddedResult.Entity.Id;
     }
-    
+
     public async Task<int> UpdateAsync(Ticket ticket, CancellationToken cancellationToken)
     {
         _dbContext.Entry(ticket).State = EntityState.Modified;
         return await _dbContext.SaveChangesAsync(cancellationToken);
     }
-    
+
     public async Task<int> DeleteAsync(Ticket ticket, CancellationToken cancellationToken)
     {
         _dbContext.Tickets.Remove(ticket);

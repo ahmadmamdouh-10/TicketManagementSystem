@@ -6,8 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Talabeyah.TicketManagement.Application.Common.Interfaces;
 using Talabeyah.TicketManagement.Application.Common.Repositories;
 using Talabeyah.TicketManagement.Domain.Common;
+using Talabeyah.TicketManagement.Domain.Services;
 using Talabeyah.TicketManagement.Infrastructure.Interceptors;
 using Talabeyah.TicketManagement.Infrastructure.Repositories;
+using Talabeyah.TicketManagement.Infrastructure.Services;
 
 namespace Talabeyah.TicketManagement.Infrastructure;
 

@@ -1,4 +1,7 @@
-namespace DefaultNamespace;
+using System.Data.Entity;
+using Talabeyah.TicketManagement.Domain.Services;
+
+namespace Talabeyah.TicketManagement.Infrastructure.Services;
 
 public class PhoneNumberUniquenessChecker : IPhoneNumberUniquenessChecker
 {
@@ -9,8 +12,8 @@ public class PhoneNumberUniquenessChecker : IPhoneNumberUniquenessChecker
         _context = context;
     }
     
-    public Task<bool> IsUniqueAsync(string phoneNumber)
+    public async Task<bool> IsUniqueAsync(string phoneNumber)
     {
-        return !await _context.Tickets.AnyAsync(u => u.PhoneNumber == phoneNumber);
+        return !await _context.Tickets.AnyAsync(u => u.PhoneNumber.Equals(phoneNumber));
     }
 }

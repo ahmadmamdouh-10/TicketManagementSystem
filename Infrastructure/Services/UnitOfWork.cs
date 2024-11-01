@@ -1,47 +1,59 @@
-namespace DefaultNamespace;
+using AutoMapper;
+using Talabeyah.TicketManagement.Application.Common.Interfaces;
+using Talabeyah.TicketManagement.Application.Common.Repositories;
+using Talabeyah.TicketManagement.Domain.Common;
+using Talabeyah.TicketManagement.Infrastructure.Repositories;
+
+namespace Talabeyah.TicketManagement.Infrastructure.Services;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly ApplicationDbContext _context;
+    private readonly ApplicationDbContext _dbContext;
     private readonly IEventDispatcher _eventDispatcher;
+    private readonly IMapper _mapper;
 
-    public UnitOfWork(ApplicationDbContext context, IEventDispatcher eventDispatcher)
+    public UnitOfWork(ApplicationDbContext context,
+        IEventDispatcher eventDispatcher,
+        IMapper mapper
+        )
     {
-        _context = context;
+        _dbContext = context;
         _eventDispatcher = eventDispatcher;
-        Tickets = new TicketRepository(_context);
+        _mapper = mapper;
+        Tickets = new TicketRepository(_dbContext, _mapper);
     }
 
     public ITicketRepository Tickets { get; }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var result = await _context.SaveChangesAsync(cancellationToken);
+        var result = await _dbContext.SaveChangesAsync(cancellationToken);
         await DispatchDomainEventsAsync();
         return result;
     }
 
     private async Task DispatchDomainEventsAsync()
     {
-        var domainEntities = _context.ChangeTracker
+        var domainEntities = _dbContext.ChangeTracker
             .Entries<BaseEntity>()
             .Where(x => x.Entity.DomainEvents != null && x.Entity.DomainEvents.Any());
 
-        var domainEvents = domainEntities
+        var entityEntries = domainEntities.ToList();
+        var domainEvents = entityEntries
             .SelectMany(x => x.Entity.DomainEvents)
             .ToList();
 
-        domainEntities.ToList()
+        entityEntries.ToList()
             .ForEach(entity => entity.Entity.ClearDomainEvents());
 
         foreach (var domainEvent in domainEvents)
         {
-            await _eventDispatcher.Dispatch(domainEvent);
+            await _eventDispatcher.DispatchAsync(domainEvent);
         }
     }
 
     public void Dispose()
     {
-        _context.Dispose();
+        _dbContext.Dispose();
     }
 }

@@ -1,6 +1,6 @@
-namespace DefaultNamespace;
+namespace Talabeyah.TicketManagement.Domain.Services;
 
 public interface IPhoneNumberUniquenessChecker
 {
-    Task<bool> IsUniqueAsync(int id);
+    Task<bool> IsUniqueAsync(string id);
 }
